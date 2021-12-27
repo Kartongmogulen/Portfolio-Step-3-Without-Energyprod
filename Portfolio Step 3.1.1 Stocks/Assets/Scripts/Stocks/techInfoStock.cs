@@ -7,6 +7,8 @@ public class techInfoStock : MonoBehaviour
 {
 
 	public int amountCompanies;
+	public int costUnlockDivPolicy;
+	public int costUnlockEPSGrowth;
 
 	public float minEPSGrowth;
 	public float maxEPSGrowth;
@@ -19,6 +21,7 @@ public class techInfoStock : MonoBehaviour
 	public List<float> EPSNow = new List<float> ();
 
 	public float startEPS;
+	public float startEPSGrowthCompany; //Bolaget jag skapar själv som ej är lönsamt
 
 	public List<float> divPayout = new List<float> (); //Utdelning för bolagen;
 	public List<float> divPayoutShare = new List<float> (); //Vilken utdelningsandel bolaget har;
@@ -54,13 +57,42 @@ public class techInfoStock : MonoBehaviour
 	void Awake()
 	{
 
-		for (int i = 0;  i < amountCompanies; i++){
+		CompanyPredetermined();
+
+		/*for (int i = 0;  i < amountCompanies; i++){
 			CreateCompany();
 			CompanyMinEPSGrowth.Add(minEPSGrowth);
 			CompanyMaxEPSGrowth.Add(maxEPSGrowth);
 			Debug.Log ("minEPS: " + minEPSGrowth);
 
-		}
+		}*/
+	}
+
+	public void CompanyPredetermined(){
+
+		//Bolag 1. Lönsamt, Mindre tillväxt
+		EPSNow.Add (startEPS);
+		divPayout.Add (startEPS * 0.6f);
+		divPayoutShare.Add (divPayout [0] / EPSNow [0]); //Utdelningsandel
+		dividendMaxPayout.Add (80);
+		dividendPayoutIncrease.Add (Random.Range (3, 8));
+		CompanyMinEPSGrowth.Add (Random.Range (5, 10));
+		CompanyMaxEPSGrowth.Add (CompanyMinEPSGrowth [0] + 3);
+		BNPEffectOnEPS.Add(0.5f);
+
+		if (dividendMaxPayout [0] > 0)
+			techPaysDividend [0] = 1;
+
+		//Bolag 2. EJ Lönsamt, Högre potential
+		EPSNow.Add (startEPSGrowthCompany);
+		divPayout.Add (startEPS * 0.0f);
+		divPayoutShare.Add (divPayout [1] / EPSNow [1]); //Utdelningsandel
+		dividendMaxPayout.Add (60);
+		dividendPayoutIncrease.Add (Random.Range (8, 12));
+		CompanyMinEPSGrowth.Add (Random.Range (8, 12));
+		CompanyMaxEPSGrowth.Add (CompanyMinEPSGrowth [1] + 3);
+		BNPEffectOnEPS.Add(1f);
+
 	}
 
 	public void CreateCompany ()
@@ -105,16 +137,23 @@ public class techInfoStock : MonoBehaviour
 	public void updateDataYearEnd()
 	{
 		bnpYearBefore = economicClimateGO.GetComponent<EconomicClimate> ().yearlyBNPGrowthRate;
+		//Debug.Log ("BNP året innan: " + bnpYearBefore);
 
 		oneCompanyDivHist.Add(divPayout[0]);
-		twoCompanyDivHist.Add(divPayout[1]);
-		threeCompanyDivHist.Add(divPayout[2]);
+		//twoCompanyDivHist.Add(divPayout[1]);
+		//threeCompanyDivHist.Add(divPayout[2]);
+
+		EPSCompanyOne.Add (EPSNow [0]);
 
 		for (int i = 0; i < EPSNow.Count; i ++){
+			
 			minEPSGrowthWithBNP = (CompanyMinEPSGrowth [i] + bnpYearBefore*BNPEffectOnEPS[i]);
 			maxEPSGrowthWithBNP = (CompanyMaxEPSGrowth [i] + bnpYearBefore*BNPEffectOnEPS[i]);
 
+			if (EPSNow [i]>0)
 			EPSNow [i] = EPSNow [i] * (1+Mathf.Round(Random.Range (minEPSGrowthWithBNP, maxEPSGrowthWithBNP))/100);
+			else 
+				EPSNow [i] =	EPSNow [i] - startEPSGrowthCompany * (Mathf.Round(Random.Range (minEPSGrowthWithBNP, maxEPSGrowthWithBNP))/100);//Om EPS är negativ
 
 			if (techPaysDividend [i] == 1) 
 			{
@@ -122,13 +161,16 @@ public class techInfoStock : MonoBehaviour
 				divPayoutShare [i] = divPayout [i] / EPSNow [i];
 			}
 
+
+			/*
 			if (EPSNow [i] >= EPSBeforePayingDividend [i] && techPaysDividend[i] == 0) {
 				divPayout[i] = EPSNow [i]*0.1f;
 				techPaysDividend [i] = 1;
 				divPayoutShare [i] = divPayout [i] / EPSNow [i];
-			}
+			}*/
+
+
 		}
-
-
+			
 	}
 }

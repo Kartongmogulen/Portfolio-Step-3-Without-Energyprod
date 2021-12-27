@@ -115,12 +115,23 @@ public class utilitiesInfoStock : MonoBehaviour
 		
 		oneCompanyDivHist.Add(divPayout[0]);
 		twoCompanyDivHist.Add(divPayout[1]);
-		threeCompanyDivHist.Add(divPayout[2]);
+		//threeCompanyDivHist.Add(divPayout[2]);
 	
 		for (int i = 0; i < EPSNow.Count; i ++){
 			EPSNow [i] = EPSNow [i] * (1+Mathf.Round(Random.Range (utiCompanyMinEPSGrowth[i], utiCompanyMaxEPSGrowth[i]))/100);
 				
 		}
+
+		updateDividends ();
+	}
+
+	public void updateDividends(){
+
+		for (int i = 0; i < amountCompanies; i++)
+			if (divPayoutShare [i] * (1 + dividendPayoutIncrease [i] / 100) <= dividendMaxPayout [i]) { //Kontrollera så inte utdelningsandelen blir högre än högsta tillåtna
+				divPayout[i] = divPayout[i]*(1 + dividendPayoutIncrease [i] / 100);
+			}
+
 	}
 }
 

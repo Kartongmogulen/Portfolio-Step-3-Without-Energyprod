@@ -108,8 +108,6 @@ public class materialsInfoStock : MonoBehaviour
 			minEPSGrowthWithBNP = (CompanyMinEPSGrowth [i] + bnpYearBefore*BNPEffectOnEPS[i]);
 			maxEPSGrowthWithBNP = (CompanyMaxEPSGrowth [i] + bnpYearBefore*BNPEffectOnEPS[i]);
 
-			Debug.Log ("minEPSGrowthWithBNP: " + minEPSGrowthWithBNP);
-
 			EPSNow [i] = EPSNow [i] * (1+Mathf.Round(Random.Range (minEPSGrowthWithBNP, maxEPSGrowthWithBNP))/100);
 
 		}

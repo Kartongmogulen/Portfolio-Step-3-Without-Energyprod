@@ -17,42 +17,52 @@ public class orderValue : MonoBehaviour
 	public int amountOrder;
 	public float stockPrice;
 
-	void Awake(){
-		ChooseStockSector = buttonGO.GetComponent<chooseStockSector> ();
-		BuyStock = buttonGO.GetComponent<buyStock> ();
+	void Awake() {
+		ChooseStockSector = buttonGO.GetComponent<chooseStockSector>();
+		BuyStock = buttonGO.GetComponent<buyStock>();
 	}
 
-    // Update is called once per frame
-	void Update(){
-			
-		if (inputOrderAmount.text == "") {
-		
-		}
+	// Update is called once per frame
+	public void onChangeInput()
+	{
 
-		else{
+		if (inputOrderAmount.text != "")
+		{
 			activeSector = ChooseStockSector.activeSector;
 
 			//Identifera vilket företag (nr)
-			if (activeSector == 1) {
-				activeCompany = stockGO.GetComponent<chooseUtiCompany> ().activeCompany;
-				stockPrice = stockGO.GetComponent<chooseUtiCompany> ().activeCompanyPrice;
+			if (activeSector == 1)
+			{
+				activeCompany = stockGO.GetComponent<chooseUtiCompany>().activeCompany;
+				stockPrice = stockGO.GetComponent<chooseUtiCompany>().activeCompanyPrice;
 
 			}
 
-			if (activeSector == 2) {
-				activeCompany = stockGO.GetComponent<chooseTechCompany> ().activeCompany;
-				stockPrice = stockGO.GetComponent<chooseTechCompany> ().activeCompanyPrice;
+			if (activeSector == 2)
+			{
+				activeCompany = stockGO.GetComponent<chooseTechCompany>().activeCompany;
+				stockPrice = stockGO.GetComponent<chooseTechCompany>().activeCompanyPrice;
 			}
 
-			if (activeSector == 3) {
-				activeCompany = stockGO.GetComponent<chooseMaterialCompany> ().activeCompany;
-				stockPrice = stockGO.GetComponent<chooseMaterialCompany> ().activeCompanyPrice;
+			if (activeSector == 3)
+			{
+				activeCompany = stockGO.GetComponent<chooseMaterialCompany>().activeCompany;
+				stockPrice = stockGO.GetComponent<chooseMaterialCompany>().activeCompanyPrice;
 			}
-    
-			amountOrder = int.Parse (inputOrderAmount.text);
 
+			if (orderValueText.text == "")
+			{
+				amountOrder = 0;
+				Debug.Log("Empty");
+			}
+			else
+				amountOrder = int.Parse(inputOrderAmount.text);
+
+			Debug.Log("Not Empty");
 			orderValueText.text = "Value order: " + amountOrder * stockPrice;
+			Debug.Log("Value Order");
 		}
+
 	}
 
 }

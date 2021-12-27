@@ -5,6 +5,21 @@ using UnityEngine.UI;
 
 public class priceChange : MonoBehaviour
 {
+	public GameObject StockMarketGO;
+	public stockMarketManager StockMarketManager;
+
+	//public stockMarketInventory ChooseStockPanel;
+
+	//Info från bolag
+	public float minEPSGrowth;
+	public float maxEPSGrowth;
+	public float EPSnow;
+
+	public float valueDCFMin;
+	public float valueDCFMax;
+
+	public float stockPriceNow;
+
 	//Script för att ändra priset på aktien
 
 	private int i = 0;
@@ -16,9 +31,10 @@ public class priceChange : MonoBehaviour
 
 	//Steg 3.1.1
 	public materialsInfoStock MaterialsInfoStock;
+	public int amountTechCompanies;
 
 	//Steg 3.1
-	public float discountRate; //Borde ändars i något övergripande script kring marknadsförhållande
+	public float discountRate; //Ska ha formen 0.01 = 1 %. Borde ändars i något övergripande script kring marknadsförhållande
 	public int period;
 
 	public techInfoStock TechInfoStock;
@@ -37,8 +53,7 @@ public class priceChange : MonoBehaviour
 
 	public float[] priceNowMaterial; //Priserna för företagen inom Material nu
 
-	public float minEPSGrowth;
-	public float maxEPSGrowth;
+
 
 	public float[] valueDCFMinTech;
 	public float[] valueDCFMaxTech;
@@ -89,7 +104,7 @@ public class priceChange : MonoBehaviour
 	public int ecoClimate;
 
 	public float STEP1utiPriceEarning; // Fasta P/E-talet för sektorn
-	//public float utiDivNow;
+									   //public float utiDivNow;
 
 	public float STEP1finPriceEarning;
 	//public float finDivNow;
@@ -109,15 +124,23 @@ public class priceChange : MonoBehaviour
 
 	void Awake()
 	{
+		/*
 		TechInfoStock = GetComponent<techInfoStock> ();
 		UtilitiesInfoStock = GetComponent<utilitiesInfoStock> ();
 		MaterialsInfoStock = GetComponent<materialsInfoStock> ();
-		dcf = GetComponent<DCF> ();
-	}
-		
-	void Start(){
+		*/
 
-		changePriceStock ();
+		dcf = GetComponent<DCF>();
+
+	}
+
+	void Start() {
+
+		StockMarketManager = StockMarketGO.GetComponent<stockMarketManager>();
+
+		//DCFbasedPriceTest ();
+
+		//changePriceStock ();
 
 		//STEP1utiPriceEarning = MainCanvasGO.GetComponent<infoStockSector> ().STEP1utiPE;
 
@@ -126,11 +149,40 @@ public class priceChange : MonoBehaviour
 		//Debug.Log("EPS: " + UtilitiesInfoStock.EPS[0]);
 		//Debug.Log("Price before: " + priceUtiCompBefore[i]);
 		//for (int i = 0; i < 3; i++){
-			//priceUtiCompBefore [i] = UtilitiesInfoStock.EPS [i] * STEP1utiPriceEarning;
+		//priceUtiCompBefore [i] = UtilitiesInfoStock.EPS [i] * STEP1utiPriceEarning;
 
 		//}
 	}
 
+	public float DCFbasedPriceTest(stock Stock)
+	{
+
+		/*for (int i = 0; i < StockMarketInventory.Stock.Count; i++) {
+			minEPSGrowth = StockMarketInventory.Stock[i].EPSGrowthMin;
+			maxEPSGrowth = StockMarketInventory.Stock[i].EPSGrowthMax;
+			EPSnow = StockMarketInventory.Stock[i].EPSnow;
+			*/
+		/*for (int i = 0; i < StockList.Count; i++) {
+			Debug.Log("Körningar DCF: ");
+			Debug.Log("Discount Rate: " + discountRate);
+			Debug.Log("EPSnow: " + StockList[i].EPSnow);
+			*/
+
+		//Min värdering
+		dcf.DCFCalculation(discountRate, Stock.EPSnow, Stock.EPSGrowthMin, period);
+		valueDCFMin = Mathf.RoundToInt(dcf.valueDCF);
+
+		//Max värdering
+		dcf.DCFCalculation(discountRate, Stock.EPSnow, Stock.EPSGrowthMax, period);
+		valueDCFMax = Mathf.RoundToInt(dcf.valueDCF);
+
+		//Spara priset för bolaget
+		stockPriceNow = Mathf.RoundToInt(Random.Range(valueDCFMin, valueDCFMax));
+		Debug.Log("Price: " + stockPriceNow);
+		return stockPriceNow;
+		//StockMarketInventory.Stock[i].updatePriceNow();
+	
+	}
 
 	public void changePriceStock(){
 
@@ -144,7 +196,9 @@ public class priceChange : MonoBehaviour
 	//Priset baserar sig på gammalt pris + volla
 	public void DCFbasedPrice()
 	{
-		amountUtiCompanies = UtilitiesInfoStock.amountCompanies;
+		//amountUtiCompanies = UtilitiesInfoStock.amountCompanies;
+		//amountTechCompanies = TechInfoStock.amountCompanies;
+
 
 		//DCF för varje bolag. Min och Max värde
 		//Utilitites
@@ -163,7 +217,7 @@ public class priceChange : MonoBehaviour
 		}
 
 		//Technology
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < amountTechCompanies; i++) {
 			
 			EPS = TechInfoStock.EPSNow [i];
 
@@ -260,3 +314,4 @@ public class priceChange : MonoBehaviour
 		utiStockPriceNow = utiStockPriceNow + 1f;
 	}
 }
+

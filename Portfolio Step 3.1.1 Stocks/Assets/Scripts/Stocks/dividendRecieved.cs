@@ -58,7 +58,7 @@ public class dividendRecieved : MonoBehaviour
 			divRecPerYear[year] += techCompanyDivRecieved[i];
 		}
 
-		playerPanelGO.GetComponent <totalCash> ().addMoney(divRecPerYear [year]);
+		//playerPanelGO.GetComponent <totalCash> ().addMoney(divRecPerYear [year]);
 
 
 

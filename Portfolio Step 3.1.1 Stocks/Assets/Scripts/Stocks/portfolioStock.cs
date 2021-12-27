@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class portfolioStock : MonoBehaviour
 {
-
-	public List<float> utiCompanySharesOwned = new List<float> ();
+	//Lista där antal aktier i specifik sector sparas
+	public List<float> utiCompanySharesOwned = new List<float> (); 
 	public List<float> techCompanySharesOwned = new List<float> ();
 	public List<float> materialsCompanySharesOwned = new List<float> ();
 
@@ -20,11 +20,13 @@ public class portfolioStock : MonoBehaviour
 	public float utiTotalInvestAmount;
 	public float[] utiGAV; 
 	public float utiTotalReturn;
+	public float utiTotalValue;
 
 	public float[] techTotalInvest; //Summan som har investerats i specifikt företag
 	public float techTotalInvestAmount;
 	public float[] techGAV; 
 	public float techTotalReturn;
+	public float techTotalValue;
 
 	public float[] materialsTotalInvest; //Summan som har investerats i specifikt företag
 	public float materialsTotalInvestAmount;
@@ -34,13 +36,42 @@ public class portfolioStock : MonoBehaviour
 	public float[] returnUti;
 	public float[] returnTech;
 
+	//UTDELNINGAR
+	public float totalDivIncome;
+	public float divUtiCompanyOne;
+	public float divUtiCompanyTwo;
+	public float divTechCompanyOne;
+	public float divTechCompanyTwo;
+
+	//ANDEL PORTFÖLJ
+	public float utiSharePortfolio;
+	public Text utiSharePortfolioText;
+	public float techSharePortfolio;
+	public Text techSharePortfolioText;
+
+	//SEKTORNS AVKASTNING
+	public Text utiReturnText;
+	public Text techReturnText;
+
+
 	public priceChange PriceChange;
 
 	public Text valuePortfolioText;
 	public Text returnPortfolioText;
+	public Text dividendPerYearText;
+
+	public utilitiesInfoStock UtilitiesInfoStock;
+	public techInfoStock TechInfoStock;
 
 	void Awake(){
+		
 		PriceChange = GetComponent<priceChange> ();
+		UtilitiesInfoStock = GetComponent<utilitiesInfoStock> ();
+		TechInfoStock = GetComponent<techInfoStock> ();
+	}
+
+	void Update(){
+		//dividendIncome ();
 	}
 
 	public void addUtiShares(int shares, int activeCompany){
@@ -73,6 +104,18 @@ public class portfolioStock : MonoBehaviour
 
 	}
 
+	public void dividendIncome(){
+
+		divUtiCompanyOne = utiCompanySharesOwned [0] * UtilitiesInfoStock.divPayout [0];
+		divUtiCompanyTwo = utiCompanySharesOwned [1] * UtilitiesInfoStock.divPayout [1];
+
+		divTechCompanyOne = techCompanySharesOwned [0] * TechInfoStock.divPayout [0];
+		divTechCompanyTwo = techCompanySharesOwned [1] * TechInfoStock.divPayout [1]; 
+
+		totalDivIncome = divUtiCompanyOne + divUtiCompanyTwo;
+		dividendPerYearText.text = "Div./Year: " + totalDivIncome;
+	}
+
 	void GAV(){
 
 		for (int i = 0; i < utiGAV.Length; i++) {
@@ -103,6 +146,7 @@ public class portfolioStock : MonoBehaviour
 				materialsGAV [i] = materialsTotalInvest [i] / materialsCompanySharesOwned [i];
 			}
 		}
+		dividendIncome ();
 	}
 
 	public void returnPortfolio(){
@@ -142,6 +186,37 @@ public class portfolioStock : MonoBehaviour
 		totalInvestAmountPortfolio = utiTotalInvestAmount + techTotalInvestAmount;
 		totalReturnPortfolio = totalValuePortfolio / totalInvestAmountPortfolio-1;
 		returnPortfolioText.text = "Return Portfolio: " + Mathf.Round(totalReturnPortfolio*100) + "%";
+	}
+
+	public void showPortfolioData(){
+
+		returnPortfolio ();
+
+		utiSharePortfolio = 0;
+		techSharePortfolio = 0;
+		utiTotalValue = 0;
+		techTotalValue = 0;
+
+		//SEKTORNS ANDEL AV PORTFÖLJEN
+		for (int i = 0; i < returnUti.Length; i++) {
+			utiTotalValue = (utiCompanySharesOwned [i]*PriceChange.priceNowUti[i]);
+			utiSharePortfolio += utiTotalValue;
+			Debug.Log ("UtiShare: " + utiSharePortfolio);
+		}
+
+		for (int i = 0; i < returnTech.Length; i++) {
+			techTotalValue = (techCompanySharesOwned [i]*PriceChange.priceNowTech[i]);
+			techSharePortfolio += techTotalValue;
+			Debug.Log ("TechShare: " + techSharePortfolio);
+		}
+			
+		utiSharePortfolioText.text = " " + Mathf.Round((utiSharePortfolio*100 / totalValuePortfolio)*100)/100 + "%";
+		techSharePortfolioText.text = " " + Mathf.Round((techSharePortfolio*100 / totalValuePortfolio)*100)/100 + "%";
+
+		//SEKTORNS AVKASTNING
+		returnPortfolio();
+		utiReturnText.text = " " + Mathf.Round(utiTotalReturn*10000)/100 + "%";
+		techReturnText.text = " " + Mathf.Round(techTotalReturn*10000)/100 + "%";
 	}
 
 	public void valuePortfolio(){

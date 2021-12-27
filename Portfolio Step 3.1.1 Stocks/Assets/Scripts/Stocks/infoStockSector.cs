@@ -194,7 +194,7 @@ public class infoStockSector : MonoBehaviour
 
 	public void updateSectorRoundEnd(){
 
-		ecoClimateNow = MainCanvasGO.GetComponent<globalEcoClimate>().globalEcoClimateValueNow;
+		//ecoClimateNow = MainCanvasGO.GetComponent<globalEcoClimate>().globalEcoClimateValueNow;
 
 		updatePE();
 
