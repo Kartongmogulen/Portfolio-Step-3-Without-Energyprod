@@ -32,12 +32,15 @@ public class EconomicClimate : MonoBehaviour
 	public int yearlyBNPGrowthRate;
 	public int recOrDep;
 
+	public int i;
+
 	void Start()
 	{
 		probExpansionMedium = probExpansionMediumStart + probExpansionShort;
 
 		//updateEcoClimate ();
 		lengthPeriod();
+		yearlyGrowthRate();
 }
 
 	public void updateEcoClimate(){
@@ -101,12 +104,12 @@ public class EconomicClimate : MonoBehaviour
 			ecoClimateText.text = "Recenssion/Depression";
 		}
 
-
-
-		yearlyGrowthRate ();
+		//yearlyGrowthRate ();
 	}
 
 	public void yearlyGrowthRate(){
+		i++;
+		Debug.Log ("Antal ggr yearlyGrowth körs: " + i);
 
 		//Hur mycket BNP ökar per år
 		if (expOrRec == 0) {
@@ -127,11 +130,10 @@ public class EconomicClimate : MonoBehaviour
 			}
 			else yearlyBNPGrowthRate = Random.Range (-2, 1);
 		}
-
 	}
 
 	public void globalBNPChanger(int changeBNP){
-		Debug.Log ("BNP Change  " + changeBNP);
+		//Debug.Log ("BNP Change  " + changeBNP);
 		totalBNPlist.Add (totalBNPBefore);
 		totalBNPAfter = Mathf.RoundToInt(totalBNPBefore * (100 + changeBNP)/100);
 		totalBNPBefore = totalBNPAfter;

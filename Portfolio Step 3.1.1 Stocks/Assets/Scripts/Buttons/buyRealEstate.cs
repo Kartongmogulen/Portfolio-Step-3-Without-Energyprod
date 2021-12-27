@@ -22,12 +22,12 @@ public class buyRealEstate : MonoBehaviour
 
 		activeRealEstate = panelBottomPanel.GetComponent<infoRealEstateButton>().activeRealEstate;
 		costRealEstate = panelBottomPanel.GetComponent<infoRealEstateButton>().downPayment;
-		moneyBefore = playerPanelGO.GetComponent<totalCash>().moneyNow;
+		//moneyBefore = playerPanelGO.GetComponent<totalCash>().moneyNow;
 
 		if (costRealEstate<=moneyBefore && activeRealEstate==1 && playerPanelGO.GetComponent<realEstatePortfolio> ().realEstateOwned[0] == 0) {
 
 			playerPanelGO.GetComponent<realEstatePortfolio>().realEstateOwned[0] = 1;
-			playerPanelGO.GetComponent<totalCash>().buyRealEstate(costRealEstate);
+			//playerPanelGO.GetComponent<totalCash>().buyRealEstate(costRealEstate);
 			playerPanelGO.GetComponent<realEstatePortfolio> ().investTotRealEstate (costRealEstate);
 			cashFlowRealEstate();
 		}
@@ -35,7 +35,7 @@ public class buyRealEstate : MonoBehaviour
 		if (costRealEstate<=moneyBefore && activeRealEstate==2 && playerPanelGO.GetComponent<realEstatePortfolio> ().realEstateOwned[1] == 0) {
 
 			playerPanelGO.GetComponent<realEstatePortfolio>().realEstateOwned[1] = 1;
-			playerPanelGO.GetComponent<totalCash>().buyRealEstate(costRealEstate);
+			//playerPanelGO.GetComponent<totalCash>().buyRealEstate(costRealEstate);
 			playerPanelGO.GetComponent<realEstatePortfolio> ().investTotRealEstate (costRealEstate);
 			cashFlowRealEstate();
 		}

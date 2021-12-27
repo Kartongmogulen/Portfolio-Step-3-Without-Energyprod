@@ -55,23 +55,23 @@ public class playerStats : MonoBehaviour
 	}
 
 	public void endRoundResearch(){
-		RP [0] = RP [0] + stockRPNow;
+		/*RP [0] = RP [0] + stockRPNow;
 		RP [1] = RP [1] + bondRPNow;
 		RP [2] = RP [2] + realEstateRPNow;
+		*/
 
 		//Reset round
 		stockRPNow = 0;
 		bondRPNow = 0;
 		realEstateRPNow = 0;
 
-		textStockRPThisRound.text = "Stock: " + stockRPNow;
-		textBondRPThisRound.text = "Bond: " + bondRPNow;
-		textRealEstateRPThisRound.text = "RE: " + realEstateRPNow;
-
+		//textStockRPThisRound.text = "Stock: " + stockRPNow;
+		//textBondRPThisRound.text = "Bond: " + bondRPNow;
+		//textRealEstateRPThisRound.text = "RE: " + realEstateRPNow;
 		RPleft = baseRPleft;
 		textRPLeft.text = "RP left: " + RPleft;
-		lvlUp ();
-		pointsLeft ();
+		//lvlUp ();
+		//pointsLeft ();
 	}
 
 	public void increaseRP(int rpIncrease){

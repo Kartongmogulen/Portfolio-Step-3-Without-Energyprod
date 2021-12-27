@@ -47,20 +47,20 @@ public class booksInfo : MonoBehaviour
 	public void buyBook (){
 		if (activeBook == 1) {
 
-			if (ownedBooks [0] == 0 && playerPanelGO.GetComponent<totalCash> ().moneyNow >= costBooks [0]) {
+			if (ownedBooks [0] == 0 /*&& playerPanelGO.GetComponent<totalCash> ().moneyNow >= costBooks [0]*/) {
 
 				playerPanelGO.GetComponent<playerStats> ().increaseRP (attributeBoostBookNr1);
-				playerPanelGO.GetComponent<totalCash> ().buyBook (costBooks [0]);
+				//playerPanelGO.GetComponent<totalCash> ().buyBook (costBooks [0]);
 				ownedBooks [0] = 1;
 				bookButtonBuyText.text = "Already owned";
 			}
 		}
 
 		if (activeBook == 2) {
-			if (ownedBooks [1] == 0 && playerPanelGO.GetComponent<totalCash> ().moneyNow >= costBooks [1]) {
+			if (ownedBooks [1] == 0 /*&& playerPanelGO.GetComponent<totalCash> ().moneyNow >= costBooks [1]*/) {
 
 				playerPanelGO.GetComponent<playerStats> ().lvlSkills [0]++;
-				playerPanelGO.GetComponent<totalCash> ().buyBook (costBooks [1]);
+				//playerPanelGO.GetComponent<totalCash> ().buyBook (costBooks [1]);
 				ownedBooks [1] = 1;
 				bookButtonBuyText.text = "Already owned";
 			}

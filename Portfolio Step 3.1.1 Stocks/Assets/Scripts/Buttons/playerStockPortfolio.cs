@@ -6,18 +6,26 @@ using UnityEngine.UI;
 public class playerStockPortfolio : MonoBehaviour
 {
 	public GameObject portfolioPanelGO;
-	public GameObject sectorInfoPanelGO;
+	public GameObject ScriptsGO;
+	//public GameObject sectorInfoPanelGO;
+
+	public portfolioStock PortfolioStock;
 
 	private int portfolioPanelStatus;
 
+	void Awake(){
+		PortfolioStock = ScriptsGO.GetComponent<portfolioStock> ();
+	}
 
 	public void activatePortPanel(){
 
 		if (portfolioPanelStatus == 0){
 
 		portfolioPanelGO.SetActive (true);
-		sectorInfoPanelGO.SetActive (false);
+		//sectorInfoPanelGO.SetActive (false);
 		portfolioPanelStatus = 1;
+
+		PortfolioStock.showPortfolioData ();
 		}
 
 		else {

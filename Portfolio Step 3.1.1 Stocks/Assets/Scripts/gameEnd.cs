@@ -57,7 +57,7 @@ public class gameEnd : MonoBehaviour
     {
 		//Income
 		incomeDuringLifeWork = PlayerPanelGO.GetComponent<incomeWork>().incomeWorkLife;
-		incomeDuringLifeDividend = PlayerPanelGO.GetComponent<totalCash>().incomeTotDivNow;
+		//incomeDuringLifeDividend = PlayerPanelGO.GetComponent<totalCash>().incomeTotDivNow;
 
 
 		utiAmount = PlayerPanelGO.GetComponent<portfolio>().utiAmount;
@@ -106,9 +106,9 @@ public class gameEnd : MonoBehaviour
 		PlayerPanelGO.GetComponent<portfolio>().totalReturnStock ();
 
 		//Return (Dividend + Interest + Rent + Capital gains)
-		incomeDuringLifeDividend = PlayerPanelGO.GetComponent<totalCash>().incomeTotDivNow;
-		incomeBondsLifetime = PlayerPanelGO.GetComponent<totalCash>().incomeBondsLifetime;
-		incomeRentLifetime = PlayerPanelGO.GetComponent<totalCash> ().incomeRealEstateLifetime;
+		//incomeDuringLifeDividend = PlayerPanelGO.GetComponent<totalCash>().incomeTotDivNow;
+		//incomeBondsLifetime = PlayerPanelGO.GetComponent<totalCash>().incomeBondsLifetime;
+		//incomeRentLifetime = PlayerPanelGO.GetComponent<totalCash> ().incomeRealEstateLifetime;
 		capGainStock = PlayerPanelGO.GetComponent<portfolio>().totalReturnAmountStocks;
 
 

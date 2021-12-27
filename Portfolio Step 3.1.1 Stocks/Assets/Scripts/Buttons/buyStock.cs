@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class buyStock : MonoBehaviour
 //Script för när man väljer att köpa en aktie
 {
+	public GameObject playerScriptsGO;
 
 	public int activeSector; //Kontrollera i scriptet chooseStockSector så sector-indexeringen är rätt när fler kategorier läggs till
 	public int activeCompany;
@@ -22,7 +23,7 @@ public class buyStock : MonoBehaviour
 
 	//Innan Steg 3.1
 	public GameObject PanelStockSector;
-	public GameObject playerPanelGO;
+	//public GameObject playerPanelGO;
 	public GameObject BottomPanelGO;
 
 	public Text priceUtiText;
@@ -68,7 +69,6 @@ public class buyStock : MonoBehaviour
 		if (activeSector == 1) {
 			activeCompany = stockGO.GetComponent<chooseUtiCompany> ().activeCompany;
 			stockPrice = stockGO.GetComponent<chooseUtiCompany> ().activeCompanyPrice;
-
 		}
 
 		if (activeSector == 2) {
@@ -85,7 +85,7 @@ public class buyStock : MonoBehaviour
 		amountOrder = int.Parse (inputAmountOrder.text);	
 
 		//Har spelaren tillräckligt med pengar?
-		moneyPlayer = playerPanelGO.GetComponent<totalCash>().moneyNow;
+		moneyPlayer = playerScriptsGO.GetComponent<totalCash>().moneyNow;
 
 		orderValue = amountOrder*stockPrice;
 
@@ -93,30 +93,31 @@ public class buyStock : MonoBehaviour
 		
 		{
 			//Subtrahera pengar
-			playerPanelGO.GetComponent<totalCash>().moneyNow = moneyPlayer - orderValue;
-			moneyPlayer = playerPanelGO.GetComponent<totalCash>().moneyNow;
+			playerScriptsGO.GetComponent<totalCash>().moneyNow = moneyPlayer - orderValue;
+			playerScriptsGO.GetComponent<totalCash>().updateMoney();
+			//moneyPlayer = playerPanelGO.GetComponent<totalCash>().moneyNow;
 
 			//Addera antalet aktier
 			if (activeSector == 1) {
-				stockGO.GetComponent<portfolioStock> ().addUtiShares (amountOrder, activeCompany);
-				stockGO.GetComponent<portfolioStock> ().utiTotalInvest [activeCompany] += orderValue;
+				playerScriptsGO.GetComponent<portfolioStock> ().addUtiShares (amountOrder, activeCompany);
+				playerScriptsGO.GetComponent<portfolioStock> ().utiTotalInvest [activeCompany] += orderValue;
 
 			}
 
 			if (activeSector == 2) {
-				stockGO.GetComponent<portfolioStock> ().addTechShares (amountOrder, activeCompany);
-				stockGO.GetComponent<portfolioStock> ().techTotalInvest [activeCompany] += orderValue;
+				playerScriptsGO.GetComponent<portfolioStock> ().addTechShares (amountOrder, activeCompany);
+				playerScriptsGO.GetComponent<portfolioStock> ().techTotalInvest [activeCompany] += orderValue;
 			}
 
 			if (activeSector == 3) {
-				stockGO.GetComponent<portfolioStock> ().addMaterialShares (amountOrder, activeCompany);
-				stockGO.GetComponent<portfolioStock> ().materialsTotalInvest [activeCompany] += orderValue;
+				playerScriptsGO.GetComponent<portfolioStock> ().addMaterialShares (amountOrder, activeCompany);
+				playerScriptsGO.GetComponent<portfolioStock> ().materialsTotalInvest [activeCompany] += orderValue;
 			}
 
-			playerPanelGO.GetComponent<totalCash>().updateMoney();
+			//playerPanelGO.GetComponent<totalCash>().updateMoney();
 		}
 			
-		stockGO.GetComponent<portfolioStock> ().valuePortfolio(); //Uppdaterar värdet av portfölj
+		//stockGO.GetComponent<portfolioStock> ().valuePortfolio(); //Uppdaterar värdet av portfölj
 
 
 

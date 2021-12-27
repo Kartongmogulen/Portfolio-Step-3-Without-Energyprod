@@ -7,7 +7,8 @@ using UnityEngine.UI;
 public class sellStock : MonoBehaviour
 //Script för när man väljer att köpa en aktie
 {
-	
+	public GameObject playerScriptsGO;
+
 	public int activeSector; //Kontrollera i scriptet chooseStockSector så sector-indexeringen är rätt när fler kategorier läggs till
 	public int activeCompany;
 	public int amountOrder;
@@ -63,19 +64,19 @@ public class sellStock : MonoBehaviour
 	public void sellStocks(){
 		//Identifiera sektor
 		activeSector = ChooseStockSector.activeSector;
-		moneyPlayer = playerPanel.GetComponent<totalCash> ().moneyNow;
+		//moneyPlayer = playerPanel.GetComponent<totalCash> ().moneyNow;
 
 		//Identifera vilket företag (nr)
 		if (activeSector == 1) {
 			activeCompany = stockGO.GetComponent<chooseUtiCompany> ().activeCompany;
 			stockPrice = stockGO.GetComponent<chooseUtiCompany> ().activeCompanyPrice;
-			playerStockCount = stockGO.GetComponent<portfolioStock> ().utiCompanySharesOwned [activeCompany];
+			playerStockCount = playerScriptsGO.GetComponent<portfolioStock> ().utiCompanySharesOwned [activeCompany];
 		}
 
 		if (activeSector == 2) {
 			activeCompany = stockGO.GetComponent<chooseTechCompany> ().activeCompany;
 			stockPrice = stockGO.GetComponent<chooseTechCompany> ().activeCompanyPrice;
-			playerStockCount = stockGO.GetComponent<portfolioStock> ().techCompanySharesOwned [activeCompany];
+			playerStockCount = playerScriptsGO.GetComponent<portfolioStock> ().techCompanySharesOwned [activeCompany];
 		}
 
 		//Identifiera antalet spelaren vill sälja
@@ -87,17 +88,18 @@ public class sellStock : MonoBehaviour
 		if (amountOrder <= playerStockCount) {
 
 			//Addera pengar
-			playerPanel.GetComponent<totalCash> ().moneyNow = moneyPlayer + orderValue;
-			moneyPlayer = playerPanel.GetComponent<totalCash> ().moneyNow;
+			moneyPlayer = playerScriptsGO.GetComponent<totalCash>().moneyNow;
+			playerScriptsGO.GetComponent<totalCash> ().moneyNow = moneyPlayer + orderValue;
+			playerScriptsGO.GetComponent<totalCash>().updateMoney();
 
 			//Sub antalet aktier
 			if (activeSector == 1) {
-				stockGO.GetComponent<portfolioStock> ().sellUtiShares (amountOrder, activeCompany);
+				playerScriptsGO.GetComponent<portfolioStock> ().sellUtiShares (amountOrder, activeCompany);
 
 			}
 
 			if (activeSector == 2) {
-				stockGO.GetComponent<portfolioStock> ().sellTechShares (amountOrder, activeCompany);
+				playerScriptsGO.GetComponent<portfolioStock> ().sellTechShares (amountOrder, activeCompany);
 
 			}
 		}
@@ -114,8 +116,8 @@ public class sellStock : MonoBehaviour
 
 		if (numStockUti > 0) {
 			playerPanel.GetComponent<portfolio>().sellUtiAmount (1);
-			playerPanel.GetComponent<totalCash>().sellStockUti (1);
-			playerPanel.GetComponent<portfolio>().GAV();
+			//playerPanel.GetComponent<totalCash>().sellStockUti (1);
+			//playerPanel.GetComponent<portfolio>().GAV();
 		}
 	}
 
@@ -126,8 +128,8 @@ public class sellStock : MonoBehaviour
 
 		if (numStockUti >= 10) {
 			playerPanel.GetComponent<portfolio>().sellUtiAmount (10);
-			playerPanel.GetComponent<totalCash>().sellStockUti (10);
-			playerPanel.GetComponent<portfolio>().GAV();
+			//playerPanel.GetComponent<totalCash>().sellStockUti (10);
+			//playerPanel.GetComponent<portfolio>().GAV();
 		}
 	}
 
@@ -138,8 +140,8 @@ public class sellStock : MonoBehaviour
 
 		if (numStockUti >= 100) {
 			playerPanel.GetComponent<portfolio>().sellUtiAmount (100);
-			playerPanel.GetComponent<totalCash>().sellStockUti (100);
-			playerPanel.GetComponent<portfolio>().GAV();
+			//playerPanel.GetComponent<totalCash>().sellStockUti (100);
+			//playerPanel.GetComponent<portfolio>().GAV();
 		}
 	}
 
@@ -152,8 +154,8 @@ public class sellStock : MonoBehaviour
 
 		if (numStockFin > 0) {
 			playerPanel.GetComponent<portfolio>().sellFinAmount (1);
-			playerPanel.GetComponent<totalCash>().sellStockFin (1);
-			playerPanel.GetComponent<portfolio>().GAV();
+			//playerPanel.GetComponent<totalCash>().sellStockFin (1);
+			//playerPanel.GetComponent<portfolio>().GAV();
 		}
 	}
 
@@ -164,8 +166,8 @@ public class sellStock : MonoBehaviour
 
 		if (numStockFin >= 10) {
 			playerPanel.GetComponent<portfolio>().sellFinAmount (10);
-			playerPanel.GetComponent<totalCash>().sellStockFin (10);
-			playerPanel.GetComponent<portfolio>().GAV();
+			//playerPanel.GetComponent<totalCash>().sellStockFin (10);
+			//playerPanel.GetComponent<portfolio>().GAV();
 		}
 	}
 
@@ -176,8 +178,8 @@ public class sellStock : MonoBehaviour
 
 		if (numStockFin >= 100) {
 			playerPanel.GetComponent<portfolio>().sellFinAmount (100);
-			playerPanel.GetComponent<totalCash>().sellStockFin (100);
-			playerPanel.GetComponent<portfolio>().GAV();
+			//playerPanel.GetComponent<totalCash>().sellStockFin (100);
+			//playerPanel.GetComponent<portfolio>().GAV();
 		}
 	}
 
@@ -188,8 +190,8 @@ public class sellStock : MonoBehaviour
 
 		if (numStockTech > 0) {
 			playerPanel.GetComponent<portfolio>().sellTechAmount (1);
-			playerPanel.GetComponent<totalCash>().sellStockTech (1);
-			playerPanel.GetComponent<portfolio>().GAV();
+			//playerPanel.GetComponent<totalCash>().sellStockTech (1);
+			//playerPanel.GetComponent<portfolio>().GAV();
 		}
 	}
 
@@ -200,8 +202,8 @@ public class sellStock : MonoBehaviour
 
 		if (numStockTech >= 10) {
 			playerPanel.GetComponent<portfolio>().sellTechAmount (10);
-			playerPanel.GetComponent<totalCash>().sellStockTech (10);
-			playerPanel.GetComponent<portfolio>().GAV();
+			//playerPanel.GetComponent<totalCash>().sellStockTech (10);
+			//playerPanel.GetComponent<portfolio>().GAV();
 		}
 	}
 
@@ -212,8 +214,8 @@ public class sellStock : MonoBehaviour
 
 		if (numStockTech >= 100) {
 			playerPanel.GetComponent<portfolio>().sellTechAmount (100);
-			playerPanel.GetComponent<totalCash>().sellStockTech (100);
-			playerPanel.GetComponent<portfolio>().GAV();
+			//playerPanel.GetComponent<totalCash>().sellStockTech (100);
+			//playerPanel.GetComponent<portfolio>().GAV();
 		}
 	}
 
@@ -229,7 +231,7 @@ public class sellStock : MonoBehaviour
 
 		if (numStockIndex > indexShareSell) {
 			playerPanel.GetComponent<portfolio>().sellIndexAmount (indexShareSell, amountOrderIndex);
-			playerPanel.GetComponent<totalCash>().sellStockIndex	(amountOrderIndex);
+			//playerPanel.GetComponent<totalCash>().sellStockIndex	(amountOrderIndex);
 
 		}
 	}

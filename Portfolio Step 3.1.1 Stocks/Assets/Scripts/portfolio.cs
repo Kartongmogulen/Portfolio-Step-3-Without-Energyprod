@@ -101,7 +101,7 @@ public class portfolio : MonoBehaviour
 
 
 		//Hur mycket utdelning som erhålls per runda
-		globalEcoClimate = MainCanvasGO.GetComponent<globalEcoClimate>().globalEcoClimateValueNow;
+		//globalEcoClimate = MainCanvasGO.GetComponent<globalEcoClimate>().globalEcoClimateValueNow;
 		utiDivPerEcoClimate = MainCanvasGO.GetComponent<infoStockSector>().divUtiNow;
 		finDivPerEcoClimate = MainCanvasGO.GetComponent<infoStockSector>().divFinNow;
 		techDivPerEcoClimate = MainCanvasGO.GetComponent<infoStockSector>().divTechNow;
@@ -119,8 +119,8 @@ public class portfolio : MonoBehaviour
 
 	public void updatePortfolio ()// Uppdaterar portföljen med aktuellt data för det ekonomiska klimatet som råder
 	{
-		globalEcoClimate = MainCanvasGO.GetComponent<globalEcoClimate>().globalEcoClimateValueNow;
-		utiDivPerEcoClimate = MainCanvasGO.GetComponent<infoStockSector>().divUtiNow;
+		//globalEcoClimate = MainCanvasGO.GetComponent<globalEcoClimate>().globalEcoClimateValueNow;
+		//utiDivPerEcoClimate = MainCanvasGO.GetComponent<infoStockSector>().divUtiNow;
 		//finDivPerEcoClimate = MainCanvasGO.GetComponent<infoStockSector>().financeDiv[globalEcoClimate];
 		//techDivPerEcoClimate = MainCanvasGO.GetComponent<infoStockSector>().techDiv[globalEcoClimate];
 
@@ -130,7 +130,7 @@ public class portfolio : MonoBehaviour
 		dividendPerYear = utiDivPortfolio + finDivPortfolio+techDivPortfolio;
 		incomeDivPerYear.text = "Dividend/year: " + dividendPerYear;
 
-		GAV ();
+		//GAV ();
 
 	}
 
@@ -269,7 +269,7 @@ public class portfolio : MonoBehaviour
 
 	}
 
-	public void GAV (){
+	/*public void GAV (){
 
 		//Utilities
 		utiGAV = totalInvestUti/utiAmount;
@@ -286,8 +286,7 @@ public class portfolio : MonoBehaviour
 		indexGAV = totalInvestIndex/indexAmount;
 		indexGAVtext.text = "" + indexGAV;
 
-
-	}
+	}*/
 
 	public void sectorReturn(){
 		returnUti = ((utiSharePrice / utiGAV)-1)*100;

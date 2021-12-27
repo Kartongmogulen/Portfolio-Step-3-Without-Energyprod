@@ -10,35 +10,34 @@ public class chooseStockSector : MonoBehaviour
 
 	public int activeSector; //Vilken sektor spelaren har valt. Används av andra script vid t.ex köp.
 
-	public GameObject companyPanelUti;
-	public GameObject companyPanelMaterial;
-	public GameObject companyPanelTech;
+	public GameObject utiSectorButton;
+	public GameObject techSectorButton;
 
 	public void deactivateAll() {
-		companyPanelUti.SetActive (false);
-		companyPanelTech.SetActive (false);
-		companyPanelMaterial.SetActive (false);
+		utiSectorButton.GetComponent<Image>().color = Color.white;
+		techSectorButton.GetComponent<Image>().color = Color.white;
 		activeSector = 0;
 	}
 
 	public void utiSectorSelection(){
 		deactivateAll ();
-		//companyPanelUti.SetActive (true);
 		activeSector = 1;
+		utiSectorButton.GetComponent<Image>().color = Color.green;
 	}
 
 	public void techSectorSelection(){
 		deactivateAll ();
-		companyPanelTech.SetActive (true);
 		activeSector = 2;
+		techSectorButton.GetComponent<Image>().color = Color.green;
 	}
 
 	public void materialSectorSelection(){
 		deactivateAll ();
-		companyPanelMaterial.SetActive (true);
+		//companyPanelMaterial.SetActive (true);
 		activeSector = 3;
 	}
-
+		
+		
 
 
 

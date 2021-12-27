@@ -24,7 +24,7 @@ public class sellBonds : MonoBehaviour
 		if (bondsOwned > 0 && activeBond==1) {
 
 			playerPanelGO.GetComponent<bondsPortfolio>().sellBonds(activeBond);
-			playerPanelGO.GetComponent<totalCash>().sellBonds(costBond);
+			//playerPanelGO.GetComponent<totalCash>().sellBonds(costBond);
 
 			amountOwnedBondText.text = "Owned (amount): " + playerPanelGO.GetComponent<bondsPortfolio>().bondsOwned[activeBond-1];
 			playerPanelGO.GetComponent<bondsPortfolio>().cashFlowBondsRemove();

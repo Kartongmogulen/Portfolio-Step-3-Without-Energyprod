@@ -11,9 +11,13 @@ public class endRoundButton : MonoBehaviour
 	public int year;
 	public int month;
 
+	public GameObject playerScriptsGO;
+	public GameObject managerScriptsGO;
+
 	public int timePoints; //Research/Time poäng.
 
 	public GameObject MainCanvas; //Object where the main scripts are
+	public GameObject stockMarketGO;
 	public GameObject PanelSectorGO;
 	public GameObject playerPanelGO;
 	public GameObject bottomPanelGO;
@@ -21,6 +25,7 @@ public class endRoundButton : MonoBehaviour
 	public GameObject DataPointsGO;
 	public GameObject StockScriptGO;
 	public GameObject EconomyScriptGO;
+	public GameObject PlayerScriptsGO;//Step 3.1.1
 
 	public int globalEcoClimate;
 
@@ -29,28 +34,6 @@ public class endRoundButton : MonoBehaviour
 	public int yearsBeforeEndGame;
 
 	public Text timePointsLeftText;
-
-	//Amount of rounds in different Economical Climate
-	public int amountEcoClimZero;
-	public Text textAmountEcoClimZero;
-
-	public int amountEcoClimOne;
-	public Text textAmountEcoClimOne;
-
-	public int amountEcoClimTwo;
-	public Text textAmountEcoClimTwo;
-
-	public int amountEcoClimThree;
-	public Text textAmountEcoClimThree;
-
-	public int amountEcoClimFour;
-	public Text textAmountEcoClimFour;
-
-	public int amountEcoClimFive;
-	public Text textAmountEcoClimFive;
-
-	public int amountEcoClimSix;
-	public Text textAmountEcoClimSix;
 
 	// SIMULERING 12 MÅNADER
 	public bool stop12MonthSim= false;
@@ -65,6 +48,7 @@ public class endRoundButton : MonoBehaviour
 		bottomPanelGO.GetComponent<busIncomeStatement>().costOfRevUpdateValue();
 		bottomPanelGO.GetComponent<busIncomeStatement>().grossMarginUpdateValue();
 		bottomPanelGO.GetComponent<busIncomeStatement>().incomeStateUpdate();
+
 	}
 
 	public void endTurn() //Uppdaterar tid samt texten för vilken aktuell tid det är
@@ -76,45 +60,42 @@ public class endRoundButton : MonoBehaviour
 		DateNowText.text = "Y: " + year + " M: " + month;
 
 		//Aktier
-		StockScriptGO.GetComponent<priceChange>().changePriceStock(); //Uppdaterar pris för aktier
+		managerScriptsGO.GetComponent<stockPriceManager>().updateStockMarketPrice();
+		//StockScriptGO.GetComponent<priceChange>().changePriceStock(); //Uppdaterar pris för aktier
 		//StockScriptGO.GetComponent<indexFunds> ().updateIndex (); //GÅ IGENOM DÅ INDEX LÄGGS TILL
-		StockScriptGO.GetComponent<PEG>().calculatePEG();
-		MainCanvas.GetComponent<infoStockSector>().histPriceSector(); //Spara historiska priser
-		DataPointsGO.GetComponent<windowGraph>().CreateGraph ();
+		//StockScriptGO.GetComponent<PEG>().calculatePEG();
+		//MainCanvas.GetComponent<infoStockSector>().histPriceSector(); //Spara historiska priser
+		//DataPointsGO.GetComponent<windowGraph>().CreateGraph ();
 
 		//Företag
 		playerPanelGO.GetComponent<ownedBusiness>().playerCashflow();
 
 		//Pengar
-		playerPanelGO.GetComponent<totalCash>().cashflowFromBusiness();
+		//playerPanelGO.GetComponent<totalCash>().cashflowFromBusiness();
+		playerScriptsGO.GetComponent<totalCash>().incomeWork();
+
 
 		//Portfölj
 		playerPanelGO.GetComponent<portfolio>().updatePortfolio(); //Uppdaterar utd för portföljen
-		StockScriptGO.GetComponent<portfolioStock> ().returnPortfolio(); //Avkastning på portföljen
+		//StockScriptGO.GetComponent<portfolioStock> ().returnPortfolio(); //Avkastning på portföljen
 
 		//Spelaren
-		playerPanelGO.GetComponent<playerStats>().endRoundResearch();
+		PlayerScriptsGO.GetComponent<playerStats>().endRoundResearch();
 
 		//Debug/Övriga spelare
 		debugPanelGO.GetComponent<Bonds100> ().investBonds ();
 		debugPanelGO.GetComponent<Index100> ().investIndex ();
 
 		//MainCanvas.GetComponent<news>().randomNews(); //NYHETER
-		//MainCanvas.GetComponent<infoStockSector>().updateSectorRoundEnd(); //TA BORT??? Användes innan Steg 3 då det bara gick att investera i sektorer
-
-		//playerPanelGO.GetComponent<portfolio>().sectorSharePortfolio();//TA BORT??? Uppdaterar fördelning i portfölj
-
-		//PanelSectorGO.GetComponent<indexFund>().divIndexFund();
-		//PanelSectorGO.GetComponent<indexFund>().divEcoClim();
 
 		if (month > 11) {
 			year++;
 			month = 0;
 			DateNowText.text = "Y: " + year + " M: " + month;
-			playerPanelGO.GetComponent<totalCash>().incomeDividend();
-			playerPanelGO.GetComponent<totalCash>().incomeBonds();
-			globalEcoClimate = MainCanvas.GetComponent<globalEcoClimate>().globalEcoClimateValueNow;
-			MainCanvas.GetComponent<infoStockSector>().updateEarnings(globalEcoClimate); //Ändrar EPS för sektorn vid årets slut
+			//playerPanelGO.GetComponent<totalCash>().incomeDividend();
+			//playerPanelGO.GetComponent<totalCash>().incomeBonds();
+			//globalEcoClimate = MainCanvas.GetComponent<globalEcoClimate>().globalEcoClimateValueNow;
+			//MainCanvas.GetComponent<infoStockSector>().updateEarnings(globalEcoClimate); //Ändrar EPS för sektorn vid årets slut
 			//StockScriptGO.GetComponent<divPolicy>().endOfYearUpdate();
 			MainCanvas.GetComponent<infoStockSector>().updateDividends();
 			MainCanvas.GetComponent<infoStockSector>().updateSectorRoundEnd();
@@ -126,11 +107,6 @@ public class endRoundButton : MonoBehaviour
 			bottomPanelGO.GetComponent<busIncomeStatement>().grossMarginUpdateValue();
 			bottomPanelGO.GetComponent<busIncomeStatement>().incomeStateUpdate();
 			playerPanelGO.GetComponent<ownedBusiness>().playerCashflow();
-		
-			//Uppdaterar aktie-sektorer
-			StockScriptGO.GetComponent<utilitiesInfoStock>().updateDataYearEnd();
-			StockScriptGO.GetComponent<techInfoStock>().updateDataYearEnd();
-			StockScriptGO.GetComponent<materialsInfoStock>().updateDataYearEnd();
 
 			StockScriptGO.GetComponent<yearsDivIncrease>().updateDivYearStreak();
 
@@ -140,6 +116,11 @@ public class endRoundButton : MonoBehaviour
 
 			EconomyScriptGO.GetComponent<EconomicClimate> ().updateEcoClimate ();
 
+			//Uppdaterar aktie-sektorer
+			StockScriptGO.GetComponent<utilitiesInfoStock>().updateDataYearEnd();
+			StockScriptGO.GetComponent<techInfoStock>().updateDataYearEnd();
+			StockScriptGO.GetComponent<materialsInfoStock>().updateDataYearEnd();
+
 			//playerPanelGO.GetComponent<incomeWork>().incomeLifeFromWork();
 
 			if (year == yearsBeforeEndGame) //Vad som händer när spelet är slut
@@ -148,12 +129,9 @@ public class endRoundButton : MonoBehaviour
 			}
 
 		}
-		playerPanelGO.GetComponent<totalCash>().incomeWork();
-		playerPanelGO.GetComponent<totalCash>().incomeRealEstate();
+		//playerPanelGO.GetComponent<totalCash>().incomeWork();
+		//playerPanelGO.GetComponent<totalCash>().incomeRealEstate();
 
-		//incomeFromWork = playerPanelGO.GetComponent<incomeWork>().workIncomeNow;
-		//globalEcoClimate = MainCanvas.GetComponent<globalEcoClimate>().globalEcoClimateValueNow;
-		//Test.text = "EcoClimate" + globalEcoClimate;
 	}
 
 	public void endTurn12Mon() //Simulerar 12 månader i taget

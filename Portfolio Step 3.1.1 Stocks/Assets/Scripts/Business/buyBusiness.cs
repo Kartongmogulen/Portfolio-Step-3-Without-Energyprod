@@ -25,12 +25,12 @@ public class buyBusiness : MonoBehaviour
 
 	public void buttonBuy (){
 
-		playerMoney = playerPanelGO.GetComponent<totalCash>().moneyNow;
+		//playerMoney = playerPanelGO.GetComponent<totalCash>().moneyNow;
 		playerAlreadyOwn = playerPanelGO.GetComponent<ownedBusiness>().playerBusiness[activeBusiness-1];
 
 			if (playerMoney>=priceBusiness[activeBusiness-1] && playerAlreadyOwn!=1){
 		
-			playerPanelGO.GetComponent<totalCash>().buyBusiness(priceBusiness[activeBusiness-1]);
+			//playerPanelGO.GetComponent<totalCash>().buyBusiness(priceBusiness[activeBusiness-1]);
 			playerPanelGO.GetComponent<ownedBusiness>().addBusiness(activeBusiness);
 			playerPanelGO.GetComponent<ownedBusiness>().totalInvest(priceBusiness[activeBusiness - 1]);
 			playerPanelGO.GetComponent<ownedBusiness> ().valueOwnedBusiness ();

@@ -22,12 +22,12 @@ public class buyBonds : MonoBehaviour
 
 		activeBond = bottomPanel.GetComponent<BondSelectedInfoButton>().activeBond;
 		costBond = bottomPanel.GetComponent<BondSelectedInfoButton>().bondCost;
-		moneyBefore = playerPanelGO.GetComponent<totalCash>().moneyNow;
+		//moneyBefore = playerPanelGO.GetComponent<totalCash>().moneyNow;
 
 		if (costBond<=moneyBefore && activeBond==1) {
 
 			playerPanelGO.GetComponent<bondsPortfolio>().addBonds(activeBond);
-			playerPanelGO.GetComponent<totalCash>().buyBonds(costBond);
+			//playerPanelGO.GetComponent<totalCash>().buyBonds(costBond);
 
 			amountOwnedBondText.text = "Owned (amount): " + playerPanelGO.GetComponent<bondsPortfolio>().bondsOwned[activeBond-1];
 			playerPanelGO.GetComponent<bondsPortfolio>().cashFlowBondsAdd();

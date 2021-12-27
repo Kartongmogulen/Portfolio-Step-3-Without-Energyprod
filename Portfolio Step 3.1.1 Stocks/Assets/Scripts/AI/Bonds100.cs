@@ -31,7 +31,7 @@ public class Bonds100 : MonoBehaviour
 
 		strategyName.text = "Bonds: 100%";
 
-		startMoney = playerPanelGO.GetComponent<totalCash> ().moneyStart;
+		//startMoney = playerPanelGO.GetComponent<totalCash> ().moneyStart;
 		incomeFromWork = playerPanelGO.GetComponent<incomeWork> ().workIncomeStart;
 		moneyNow = startMoney;
 	}
